@@ -1,6 +1,8 @@
-import './App.css';
-
 function App() {
+  const hola = 2;
+
+  console.log(hola);
+
   return (
     <div className="App">
       <header className="App-header">
