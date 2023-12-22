@@ -1,7 +1,9 @@
+import { Button } from '@mui/material';
+
 const IndexPage = (): JSX.Element => (
   <div>
     <h1>Hello Next.js 👋</h1>
-    <p>PEEENE</p>
+    <Button>pene</Button>
   </div>
 );
 
