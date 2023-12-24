@@ -5,7 +5,7 @@
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
