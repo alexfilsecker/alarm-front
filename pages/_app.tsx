@@ -1,12 +1,13 @@
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
+import '../styles/global.css';
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
-    <ThemeProvider theme={createTheme()}>
+    <>
       <CssBaseline />
       <Component {...pageProps} />
-    </ThemeProvider>
+    </>
   );
 };
 
