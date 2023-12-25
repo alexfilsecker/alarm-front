@@ -7,6 +7,8 @@ services:
     build: ./
     command: 'npm run dev'
     restart: always
+    env_file:
+      - .env
     volumes:
       - ./:/app
     ports:

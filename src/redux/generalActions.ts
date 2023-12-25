@@ -5,9 +5,9 @@ import post from './api';
 const generateRequest = <RT = unknown, A = void>(
   method: 'get' | 'post' | 'patch' | 'put' | 'postRefresh',
   path: string,
-): AsyncThunk<RT, A, { rejectValue: unknown }> => {
+): AsyncThunk<RT, A, { rejectValue: string }> => {
   const typePrefix = `${method.toUpperCase()}:${path}`;
-  return createAsyncThunk<RT, A, { rejectValue: unknown }>(
+  return createAsyncThunk<RT, A, { rejectValue: string }>(
     typePrefix,
     async (params: A, thunkApi) => {
       try {
@@ -18,7 +18,10 @@ const generateRequest = <RT = unknown, A = void>(
             return null as RT;
         }
       } catch (error: unknown) {
-        return thunkApi.rejectWithValue(error);
+        if (error instanceof Error) {
+          return thunkApi.rejectWithValue(error.message);
+        }
+        return thunkApi.rejectWithValue('Unknown error');
       }
     },
   );
