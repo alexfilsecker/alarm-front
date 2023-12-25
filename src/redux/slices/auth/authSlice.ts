@@ -29,11 +29,10 @@ const authSlice = createSlice({
       state.authErrorMessage = null;
     });
     builder.addCase(login.rejected, (state, action) => {
-      console.log('🚀 - action:', action);
       state.isAuthenticated = false;
       state.loadingAuth = false;
-      if (action.payload !== undefined && typeof action.payload === 'string') {
-        state.authErrorMessage = action.payload;
+      if (action.payload !== undefined) {
+        state.authErrorMessage = action.payload.message;
       }
     });
   },

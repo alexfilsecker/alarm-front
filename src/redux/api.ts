@@ -7,7 +7,6 @@ const post = async <A, RT>(
   path: string,
   body: A,
 ): Promise<AxiosResponse<RT, any>> => {
-  console.log('🚀 - body:', body);
   const url = `${baseURL}/${path}`;
   return await axios<RT>({
     method: 'POST',

@@ -1,13 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AsyncThunk } from '@reduxjs/toolkit';
 import post from './api';
+import { AxiosError } from 'axios';
+import type { KnownError } from './knownError';
 
 const generateRequest = <RT = unknown, A = void>(
   method: 'get' | 'post' | 'patch' | 'put' | 'postRefresh',
   path: string,
-): AsyncThunk<RT, A, { rejectValue: string }> => {
+): AsyncThunk<RT, A, { rejectValue: KnownError }> => {
   const typePrefix = `${method.toUpperCase()}:${path}`;
-  return createAsyncThunk<RT, A, { rejectValue: string }>(
+  return createAsyncThunk<RT, A, { rejectValue: KnownError }>(
     typePrefix,
     async (params: A, thunkApi) => {
       try {
@@ -18,10 +20,30 @@ const generateRequest = <RT = unknown, A = void>(
             return null as RT;
         }
       } catch (error: unknown) {
+        const returnError: KnownError = {
+          type: 'Unknown',
+          message: 'Unknown error',
+          stack: 'No Stack',
+          status: 500,
+        };
+
         if (error instanceof Error) {
-          return thunkApi.rejectWithValue(error.message);
+          returnError.type = 'Error';
+          returnError.message = error.message;
+          returnError.stack = error.stack;
+          if (error instanceof AxiosError) {
+            if (
+              error.response?.data.error !== undefined &&
+              error.response.data.error !== null
+            ) {
+              const recievedError = error.response.data.error;
+              returnError.message = recievedError.message;
+              returnError.status = error.response.status;
+              returnError.stack = recievedError.stack;
+            }
+          }
         }
-        return thunkApi.rejectWithValue('Unknown error');
+        return thunkApi.rejectWithValue(returnError);
       }
     },
   );
