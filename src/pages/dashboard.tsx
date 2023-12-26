@@ -3,15 +3,15 @@ import { useAppSelector } from '../hooks/state';
 import { useEffect } from 'react';
 
 const DashboardPage = (): JSX.Element => {
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (userInfo === null) {
       void router.push('/');
     }
-  }, [isAuthenticated, router]);
+  }, [userInfo, router]);
 
   return (
     <div className="flex justify-center my-10">

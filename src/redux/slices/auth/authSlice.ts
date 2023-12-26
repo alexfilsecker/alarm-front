@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import login from './authActions';
+import { getUserInfo, saveToken } from '../../../utils/auth';
+
+export type UserInfo = {
+  username: string;
+};
 
 type AuthState = {
-  isAuthenticated: boolean;
+  userInfo: UserInfo | null;
   loadingAuth: boolean;
   authErrorMessage: string | null;
 };
 
 const initialState: AuthState = {
-  isAuthenticated: false,
+  userInfo: getUserInfo(),
   loadingAuth: false,
   authErrorMessage: null,
 };
@@ -19,17 +24,17 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(login.pending, (state) => {
-      state.isAuthenticated = false;
       state.loadingAuth = true;
       state.authErrorMessage = null;
     });
-    builder.addCase(login.fulfilled, (state) => {
-      state.isAuthenticated = true;
+    builder.addCase(login.fulfilled, (state, action) => {
+      const token = action.payload.token;
+      saveToken(token);
+      state.userInfo = getUserInfo();
       state.loadingAuth = false;
       state.authErrorMessage = null;
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.isAuthenticated = false;
       state.loadingAuth = false;
       if (action.payload !== undefined) {
         state.authErrorMessage = action.payload.message;

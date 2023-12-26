@@ -4,6 +4,13 @@ type LoginBody = {
   password: string;
 };
 
-export const login = generateRequest<string, LoginBody>('post', 'auth/login');
+type LoginResponse = {
+  token: string;
+};
+
+export const login = generateRequest<LoginResponse, LoginBody>(
+  'post',
+  'auth/login',
+);
 
 export default login;

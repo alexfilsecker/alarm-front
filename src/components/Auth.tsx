@@ -7,7 +7,7 @@ import login from '../redux/slices/auth/authActions';
 const Auth = (): JSX.Element => {
   const [password, setPassword] = useState('');
 
-  const { isAuthenticated, loadingAuth, authErrorMessage } = useAppSelector(
+  const { userInfo, loadingAuth, authErrorMessage } = useAppSelector(
     (state) => state.auth,
   );
 
@@ -15,10 +15,10 @@ const Auth = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (userInfo !== null) {
       void router.push('/dashboard');
     }
-  }, [isAuthenticated, router]);
+  }, [userInfo, router]);
 
   const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
@@ -31,7 +31,7 @@ const Auth = (): JSX.Element => {
   };
 
   const handleAuth = (): void => {
-    if (!loadingAuth) {
+    if (!loadingAuth && password.length > 0) {
       void dispatch(login({ password }));
     }
   };
@@ -53,7 +53,9 @@ const Auth = (): JSX.Element => {
           <CircularProgress />
         </div>
       ) : (
-        <Button onClick={handleAuth}>Login</Button>
+        <Button onClick={handleAuth} disabled={password.length === 0}>
+          Login
+        </Button>
       )}
     </div>
   );
