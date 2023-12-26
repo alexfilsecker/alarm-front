@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+
 import type { UserInfo } from '../redux/slices/auth/authSlice';
 
 export const saveToken = (token: string): void => {

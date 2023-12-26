@@ -11,6 +11,7 @@ type LoginResponse = {
 export const login = generateRequest<LoginResponse, LoginBody>(
   'post',
   'auth/login',
+  { withToken: false },
 );
 
 export default login;

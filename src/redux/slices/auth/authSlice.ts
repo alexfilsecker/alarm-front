@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import login from './authActions';
+
 import { getUserInfo, saveToken } from '../../../utils/auth';
+
+import login from './authActions';
 
 export type UserInfo = {
   username: string;

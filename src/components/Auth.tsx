@@ -1,7 +1,8 @@
 import { Button, CircularProgress, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/state';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+import { useAppDispatch, useAppSelector } from '../hooks/state';
 import login from '../redux/slices/auth/authActions';
 
 const Auth = (): JSX.Element => {

@@ -1,11 +1,20 @@
+import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '../hooks/state';
 import { useEffect } from 'react';
+
+import { useAppDispatch, useAppSelector } from '../hooks/state';
+import peneAction from '../redux/slices/pene/peneActions';
 
 const DashboardPage = (): JSX.Element => {
   const { userInfo } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  const handleClick = (): void => {
+    void dispatch(peneAction());
+  };
 
   useEffect(() => {
     if (userInfo === null) {
@@ -17,6 +26,7 @@ const DashboardPage = (): JSX.Element => {
     <div className="flex justify-center my-10">
       <div className="flex flex-col gap-10 items-center">
         <h1 className="text-5xl">DASHBOARD</h1>
+        <Button onClick={handleClick}>dispatch</Button>
       </div>
     </div>
   );
