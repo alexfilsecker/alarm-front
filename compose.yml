@@ -5,11 +5,19 @@ services:
     image: alarm-front
     container_name: alarm-front
     build: ./
-    command: 'npm run dev'
+    command: 'yarn dev'
     restart: always
     env_file:
       - .env
-    volumes:
-      - ./:/app
     ports:
       - 3000:3000
+    volumes:
+      - ./:/app
+    networks:
+      - front-net
+
+networks:
+  front-net:
+    driver: bridge
+    name: alarm-front-net
+

@@ -4,7 +4,6 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc",
     "lint": "eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
