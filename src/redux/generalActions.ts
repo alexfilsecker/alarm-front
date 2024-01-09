@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import post from './api';
+import { post, requestNewToken } from './api';
 
 import type { KnownError } from './knownError';
 import type { AsyncThunk } from '@reduxjs/toolkit';
+import { getRefreshToken, getToken, isTokenExpired } from '../utils/auth';
 
 type Options = {
   withToken: boolean;
@@ -23,6 +24,19 @@ const generateRequest = <RT = unknown, A = void>(
   return createAsyncThunk<RT, A, { rejectValue: KnownError }>(
     typePrefix,
     async (params: A, thunkApi) => {
+      if (options.withToken) {
+        const token = getToken();
+        if (token === undefined) {
+          throw new Error('Token is undefined');
+        }
+        if (isTokenExpired(token)) {
+          const refreshToken = getRefreshToken();
+          if (refreshToken === undefined) {
+            throw new Error('Refresh token is undefined');
+          }
+          await requestNewToken(refreshToken);
+        }
+      }
       try {
         switch (method) {
           case 'post':

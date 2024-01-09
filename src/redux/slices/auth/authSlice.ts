@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getUserInfo, saveToken } from '../../../utils/auth';
+import { getUserInfo, saveRefreshToken, saveToken } from '../../../utils/auth';
 
 import login from './authActions';
 
@@ -30,8 +30,8 @@ const authSlice = createSlice({
       state.authErrorMessage = null;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      const token = action.payload.token;
-      saveToken(token);
+      saveToken(action.payload.token);
+      saveRefreshToken(action.payload.refreshToken);
       state.userInfo = getUserInfo();
       state.loadingAuth = false;
       state.authErrorMessage = null;

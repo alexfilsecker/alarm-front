@@ -6,6 +6,7 @@ type LoginBody = {
 
 type LoginResponse = {
   token: string;
+  refreshToken: string;
 };
 
 export const login = generateRequest<LoginResponse, LoginBody>(
