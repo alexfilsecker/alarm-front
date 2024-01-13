@@ -1,9 +1,4 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "ignorePatterns": ["node_modules", "tailwind.config.js", "postcss.config.js"],
   "extends": ["next/core-web-vitals", "standard-with-typescript", "prettier"],
   "plugins": ["prettier"],
   "parserOptions": {

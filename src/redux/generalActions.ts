@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
+import { getRefreshToken, getToken, isTokenExpired } from '../utils/auth';
+
 import { post, requestNewToken } from './api';
 
 import type { KnownError } from './knownError';
 import type { AsyncThunk } from '@reduxjs/toolkit';
-import { getRefreshToken, getToken, isTokenExpired } from '../utils/auth';
 
 type Options = {
   withToken: boolean;
