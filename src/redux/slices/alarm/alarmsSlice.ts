@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { getAlarms } from './alarmsAction';
 
-type WeekDay =
+export type WeekDay =
   | 'monday'
   | 'tuesday'
   | 'wednesday'
@@ -11,7 +11,7 @@ type WeekDay =
   | 'saturday'
   | 'sunday';
 
-type DayAlarm = {
+export type DayAlarm = {
   enabled: boolean;
   startTime: string;
   endTime: string;
@@ -22,13 +22,15 @@ export type Alarms = {
 };
 
 type AlarmState = {
-  alarms: Alarms | null;
+  clientAlarms: Alarms | null;
+  serverAlarms: Alarms | null;
   loadingAlarms: boolean;
   alarmsErrorMessage: string | null;
 };
 
 const initialState: AlarmState = {
-  alarms: null,
+  clientAlarms: null,
+  serverAlarms: null,
   loadingAlarms: false,
   alarmsErrorMessage: null,
 };
@@ -36,14 +38,44 @@ const initialState: AlarmState = {
 const alarmsSlice = createSlice({
   name: 'alarm',
   initialState,
-  reducers: {},
+
+  reducers: {
+    changeEnabledDayAlarm(
+      state,
+      { payload }: { payload: { day: WeekDay; enabled: boolean } },
+    ) {
+      if (state.clientAlarms !== null) {
+        state.clientAlarms[payload.day].enabled = payload.enabled;
+      }
+    },
+
+    changeStartTimeDayAlarm(
+      state,
+      { payload }: { payload: { day: WeekDay; startTime: string } },
+    ) {
+      if (state.clientAlarms !== null) {
+        state.clientAlarms[payload.day].startTime = payload.startTime;
+      }
+    },
+
+    changeEndTimeDayAlarm(
+      state,
+      { payload }: { payload: { day: WeekDay; endTime: string } },
+    ) {
+      if (state.clientAlarms !== null) {
+        state.clientAlarms[payload.day].endTime = payload.endTime;
+      }
+    },
+  },
+
   extraReducers(builder) {
     builder.addCase(getAlarms.pending, (state) => {
       state.loadingAlarms = true;
       state.alarmsErrorMessage = null;
     });
     builder.addCase(getAlarms.fulfilled, (state, action) => {
-      state.alarms = action.payload;
+      state.clientAlarms = { ...action.payload };
+      state.serverAlarms = { ...action.payload };
       state.loadingAlarms = false;
       state.alarmsErrorMessage = null;
     });
@@ -55,6 +87,8 @@ const alarmsSlice = createSlice({
     });
   },
 });
+
+export const { changeEnabledDayAlarm } = alarmsSlice.actions;
 
 const alarmsReducer = alarmsSlice.reducer;
 export default alarmsReducer;
