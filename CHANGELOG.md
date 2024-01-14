@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - General Layout
 - Alarm state
 - Types of changes in changelog
+- Time picker from MUI X
 
 ### Removed
 
