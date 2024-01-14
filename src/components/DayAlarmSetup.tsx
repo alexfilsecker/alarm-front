@@ -51,7 +51,10 @@ const DayAlarmSetup = ({
   const [endHour, endMinutes] = dayAlarm.endTime.split(':').map(Number);
 
   return (
-    <Paper className="p-2" elevation={1}>
+    <Paper
+      className={`p-2 ${!dayAlarm.enabled && '!bg-gray-100'}`}
+      elevation={1}
+    >
       <Grid container columns={24} columnSpacing={2}>
         <Grid item xs={6} className="flex items-center">
           <FormControlLabel
@@ -66,6 +69,7 @@ const DayAlarmSetup = ({
           <TimePicker
             ampm={false}
             value={dayjs().set('hour', startHour).set('minute', startMinutes)}
+            disabled={!dayAlarm.enabled}
             onChange={(date) => {
               handleTimeChange('start', date);
             }}
@@ -75,6 +79,7 @@ const DayAlarmSetup = ({
           <TimePicker
             ampm={false}
             value={dayjs().set('hour', endHour).set('minute', endMinutes)}
+            disabled={!dayAlarm.enabled}
             onChange={(date) => {
               handleTimeChange('end', date);
             }}
