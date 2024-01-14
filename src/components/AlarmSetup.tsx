@@ -3,7 +3,11 @@ import { useEffect, type ReactNode } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../hooks/state';
 import { getAlarms } from '../redux/slices/alarm/alarmsAction';
-import { type Alarms, type WeekDay } from '../redux/slices/alarm/alarmsSlice';
+import {
+  resetAlarms,
+  type Alarms,
+  type WeekDay,
+} from '../redux/slices/alarm/alarmsSlice';
 
 import DayAlarmSetup from './DayAlarmSetup';
 
@@ -44,6 +48,10 @@ const AlarmSetup = (): ReactNode => {
     return <div className="flex justify-center my-10">No alarms set</div>;
   }
 
+  const handleReset = (): void => {
+    dispatch(resetAlarms());
+  };
+
   const equalAlarms = deepEqual(clientAlarms, serverAlarms);
 
   return (
@@ -54,7 +62,9 @@ const AlarmSetup = (): ReactNode => {
         ))}
       </div>
       <div className="flex justify-end gap-5">
-        <Button disabled={equalAlarms}>Reset</Button>
+        <Button disabled={equalAlarms} onClick={handleReset}>
+          Reset
+        </Button>
         <Button disabled={equalAlarms} variant="contained">
           Save
         </Button>

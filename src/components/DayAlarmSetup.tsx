@@ -8,6 +8,8 @@ import {
   type WeekDay,
   type DayAlarm,
   changeEnabledDayAlarm,
+  changeStartTimeDayAlarm,
+  changeEndTimeDayAlarm,
 } from '../redux/slices/alarm/alarmsSlice';
 import { spanishDays } from '../utils/spanishDays';
 
@@ -31,6 +33,20 @@ const DayAlarmSetup = ({
     dispatch(changeEnabledDayAlarm({ day, enabled: checked }));
   };
 
+  const handleTimeChange = (
+    type: 'start' | 'end',
+    date: dayjs.Dayjs | null,
+  ): void => {
+    if (date === null) return;
+    const time = date.format('HH:mm');
+    if (type === 'start') {
+      dispatch(changeStartTimeDayAlarm({ day, startTime: time }));
+    }
+    if (type === 'end') {
+      dispatch(changeEndTimeDayAlarm({ day, endTime: time }));
+    }
+  };
+
   const [startHour, startMinutes] = dayAlarm.startTime.split(':').map(Number);
   const [endHour, endMinutes] = dayAlarm.endTime.split(':').map(Number);
 
@@ -50,12 +66,18 @@ const DayAlarmSetup = ({
           <TimePicker
             ampm={false}
             value={dayjs().set('hour', startHour).set('minute', startMinutes)}
+            onChange={(date) => {
+              handleTimeChange('start', date);
+            }}
           />
         </Grid>
         <Grid item xs={9}>
           <TimePicker
             ampm={false}
             value={dayjs().set('hour', endHour).set('minute', endMinutes)}
+            onChange={(date) => {
+              handleTimeChange('end', date);
+            }}
           />
         </Grid>
       </Grid>

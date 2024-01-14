@@ -66,6 +66,12 @@ const alarmsSlice = createSlice({
         state.clientAlarms[payload.day].endTime = payload.endTime;
       }
     },
+
+    resetAlarms(state) {
+      if (state.serverAlarms !== null) {
+        state.clientAlarms = { ...state.serverAlarms };
+      }
+    },
   },
 
   extraReducers(builder) {
@@ -88,7 +94,12 @@ const alarmsSlice = createSlice({
   },
 });
 
-export const { changeEnabledDayAlarm } = alarmsSlice.actions;
+export const {
+  changeEnabledDayAlarm,
+  changeStartTimeDayAlarm,
+  changeEndTimeDayAlarm,
+  resetAlarms,
+} = alarmsSlice.actions;
 
 const alarmsReducer = alarmsSlice.reducer;
 export default alarmsReducer;
