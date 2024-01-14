@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - useCheckLoging hook to check if user is logged in
 - General Layout
+- Alarm state
 
 ### Removed
 
