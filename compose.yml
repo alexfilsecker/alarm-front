@@ -9,12 +9,12 @@ services:
     restart: always
     env_file:
       - .env
+    networks:
+      - front-net
     ports:
       - 3000:3000
     volumes:
       - ./:/app
-    networks:
-      - front-net
 
 networks:
   front-net:
