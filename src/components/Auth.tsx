@@ -1,4 +1,4 @@
-import { Button, CircularProgress, TextField } from '@mui/material';
+import { Button, CircularProgress, Paper, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/state';
 import login from '../redux/slices/auth/authActions';
 
 const Auth = (): JSX.Element => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const { userInfo, loadingAuth, authErrorMessage } = useAppSelector(
@@ -13,13 +14,16 @@ const Auth = (): JSX.Element => {
   );
 
   const router = useRouter();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (userInfo !== null) {
       void router.push('/dashboard');
     }
   }, [userInfo, router]);
+
+  const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setUsername(e.target.value);
+  };
 
   const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
@@ -31,14 +35,25 @@ const Auth = (): JSX.Element => {
     }
   };
 
+  const dispatch = useAppDispatch();
   const handleAuth = (): void => {
     if (!loadingAuth && password.length > 0) {
-      void dispatch(login({ password }));
+      void dispatch(login({ password, username }));
     }
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <Paper className="flex flex-col gap-5 p-5">
+      <TextField
+        variant="standard"
+        placeholder="Username"
+        value={username}
+        error={authErrorMessage?.errorIn === 'username'}
+        onChange={handleUserChange}
+        helperText={
+          authErrorMessage?.errorIn === 'username' && authErrorMessage?.message
+        }
+      />
       <TextField
         error={authErrorMessage !== null}
         variant="standard"
@@ -47,7 +62,9 @@ const Auth = (): JSX.Element => {
         value={password}
         onChange={handlePassChange}
         onKeyDown={handleKeyDown}
-        helperText={authErrorMessage}
+        helperText={
+          authErrorMessage?.errorIn === 'password' && authErrorMessage?.message
+        }
       />
       {loadingAuth ? (
         <div className="w-full flex justify-center">
@@ -58,7 +75,7 @@ const Auth = (): JSX.Element => {
           Login
         </Button>
       )}
-    </div>
+    </Paper>
   );
 };
 

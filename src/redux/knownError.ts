@@ -1,15 +1,17 @@
 import type { ValidationError } from 'express-validator';
 
-export type CertainErrorTypes = 'Unknown' | 'Error';
-
 type NormalError = {
   status: number;
   message: string;
   stack?: string;
 };
 
-export type CertainError = NormalError & {
-  type: CertainErrorTypes;
+export type UnknownError = NormalError & {
+  type: 'Unknown';
+};
+
+export type CError = NormalError & {
+  type: 'Error';
 };
 
 type CValidationError = NormalError & {
@@ -17,4 +19,11 @@ type CValidationError = NormalError & {
   validationErrors: ValidationError[];
 };
 
-export type KnownError = CertainError | CValidationError;
+export type AuthErrorIn = 'username' | 'password';
+
+type CAuthError = NormalError & {
+  type: 'AuthError';
+  errorIn: AuthErrorIn;
+};
+
+export type KnownError = UnknownError | CError | CValidationError | CAuthError;

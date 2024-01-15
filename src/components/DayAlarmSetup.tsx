@@ -53,7 +53,7 @@ const DayAlarmSetup = ({
   return (
     <Paper
       className={`p-2 ${!dayAlarm.enabled && '!bg-gray-100'}`}
-      elevation={1}
+      elevation={dayAlarm.enabled ? 3 : 0}
     >
       <Grid container columns={24} columnSpacing={2}>
         <Grid item xs={6} className="flex items-center">

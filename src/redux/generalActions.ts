@@ -48,30 +48,46 @@ const generateRequest = <RT = unknown, A = void>(
             return null as RT;
         }
       } catch (error: unknown) {
-        const returnError: KnownError = {
-          type: 'Unknown',
-          message: 'Unknown error',
-          stack: 'No Stack',
-          status: 500,
-        };
-
-        if (error instanceof Error) {
-          returnError.type = 'Error';
-          returnError.message = error.message;
-          returnError.stack = error.stack;
-          if (error instanceof AxiosError) {
-            if (
-              error.response?.data.error !== undefined &&
-              error.response.data.error !== null
-            ) {
-              const recievedError = error.response.data.error;
-              returnError.message = recievedError.message;
-              returnError.status = error.response.status;
-              returnError.stack = recievedError.stack;
-            }
-          }
+        if (!(error instanceof Error)) {
+          return thunkApi.rejectWithValue({
+            type: 'Unknown',
+            message: 'Unknown error',
+            status: 500,
+          });
         }
-        return thunkApi.rejectWithValue(returnError);
+
+        if (
+          !(error instanceof AxiosError) ||
+          error.response === undefined ||
+          error.response.data === undefined ||
+          error.response.data.error === undefined ||
+          error.response.data.error.type === undefined ||
+          typeof error.response.data.error.type !== 'string'
+        ) {
+          return thunkApi.rejectWithValue({
+            type: 'Error',
+            message: error.message,
+            status: 500,
+            stack: error.stack,
+          });
+        }
+
+        const erroType = error.response.data.error.type;
+        if (erroType === 'AuthError') {
+          return thunkApi.rejectWithValue({
+            type: erroType,
+            message: error.response.data.error.message,
+            status: error.response.data.error.status,
+            errorIn: error.response.data.error.errorIn,
+          });
+        }
+
+        return thunkApi.rejectWithValue({
+          type: erroType,
+          message: error.response.data.error.message,
+          status: error.response.data.error.status,
+          stack: error.response.data.error.stack,
+        });
       }
     },
   );

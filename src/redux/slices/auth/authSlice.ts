@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { getUserInfo, saveRefreshToken, saveToken } from '../../../utils/auth';
+import { type AuthErrorIn } from '../../knownError';
 
 import login from './authActions';
 
@@ -11,7 +12,10 @@ export type UserInfo = {
 type AuthState = {
   userInfo: UserInfo | null;
   loadingAuth: boolean;
-  authErrorMessage: string | null;
+  authErrorMessage: null | {
+    message: string;
+    errorIn: AuthErrorIn;
+  };
 };
 
 const initialState: AuthState = {
@@ -36,11 +40,14 @@ const authSlice = createSlice({
       state.loadingAuth = false;
       state.authErrorMessage = null;
     });
-    builder.addCase(login.rejected, (state, action) => {
+    builder.addCase(login.rejected, (state, { payload }) => {
       state.loadingAuth = false;
-      if (action.payload !== undefined) {
-        state.authErrorMessage = action.payload.message;
-      }
+
+      if (payload === undefined || payload.type !== 'AuthError') return;
+      state.authErrorMessage = {
+        message: payload.message,
+        errorIn: payload.errorIn,
+      };
     });
   },
 });

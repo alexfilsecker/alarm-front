@@ -1,6 +1,7 @@
 import generateRequest from '../../generalActions';
 
 type LoginBody = {
+  username: string;
   password: string;
 };
 
