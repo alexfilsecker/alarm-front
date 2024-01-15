@@ -11,19 +11,13 @@ import {
   changeStartTimeDayAlarm,
   changeEndTimeDayAlarm,
 } from '../redux/slices/alarm/alarmsSlice';
-import { spanishDays } from '../utils/spanishDays';
 
 type DayAlarmSetupProps = {
   day: WeekDay;
   dayAlarm: DayAlarm;
-  // setAlarmEnabled: (day: WeekDay, enabled: boolean) => void;
 };
 
-const DayAlarmSetup = ({
-  day,
-  dayAlarm,
-  // setAlarmEnabled,
-}: DayAlarmSetupProps): ReactNode => {
+const DayAlarmSetup = ({ day, dayAlarm }: DayAlarmSetupProps): ReactNode => {
   const dispatch = useAppDispatch();
 
   const handleChangeEnabled = (
@@ -58,7 +52,7 @@ const DayAlarmSetup = ({
       <Grid container columns={24} columnSpacing={2}>
         <Grid item xs={6} className="flex items-center">
           <FormControlLabel
-            label={spanishDays[day]}
+            label={day}
             control={<Checkbox />}
             onChange={handleChangeEnabled}
             className="pl-5"
