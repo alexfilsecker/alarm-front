@@ -1,0 +1,20 @@
+services:
+  alarm-front:
+    image: alarm-front
+    container_name: alarm-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run dev
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src/:/app/src
+    networks:
+      - fintree-front-network
+
+networks:
+  fintree-front-network:
+    driver: bridge
+    name: fintree-front-network
