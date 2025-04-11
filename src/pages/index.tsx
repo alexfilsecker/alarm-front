@@ -1,6 +1,6 @@
-import Auth from '../components/Auth';
+import Auth from "../components/Auth";
 
-const IndexPage = (): JSX.Element => {
+const IndexPage = (): React.ReactNode => {
   return (
     <div className="flex justify-center my-10">
       <div className="flex flex-col gap-10 items-center">

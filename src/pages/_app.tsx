@@ -1,12 +1,12 @@
-import { CssBaseline } from '@mui/material';
-import '../styles/global.css';
-import { Provider } from 'react-redux';
+import { CssBaseline } from "@mui/material";
+import "../styles/global.css";
+import { Provider } from "react-redux";
 
-import store from '../redux/store';
+import store from "../redux/store";
 
-import type { AppProps } from 'next/app';
+import type { AppProps } from "next/app";
 
-const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
+const MyApp = ({ Component, pageProps }: AppProps): React.ReactNode => {
   return (
     <Provider store={store}>
       <CssBaseline />

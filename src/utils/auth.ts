@@ -1,30 +1,30 @@
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
-import type { UserInfo } from '../redux/slices/auth/authSlice';
+import type { UserInfo } from "../redux/slices/auth/authSlice";
 
 export const saveToken = (token: string): void => {
-  Cookies.set('token', token);
+  Cookies.set("token", token);
 };
 
 export const saveRefreshToken = (refreshToken: string): void => {
-  Cookies.set('refresh_token', refreshToken);
+  Cookies.set("refresh_token", refreshToken);
 };
 
 export const deleteToken = (): void => {
-  Cookies.remove('token');
+  Cookies.remove("token");
 };
 
 export const getToken = (): string | undefined => {
-  return Cookies.get('token');
+  return Cookies.get("token");
 };
 
 export const getRefreshToken = (): string | undefined => {
-  return Cookies.get('refresh_token');
+  return Cookies.get("refresh_token");
 };
 
 export const getUserInfo = (): UserInfo | null => {
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   if (token === undefined) {
     return null;
   }
@@ -42,6 +42,6 @@ export const isTokenExpired = (token: string): boolean => {
   }
   const tokenExpired = Date.now() >= exp * 1000;
   const timeTillExpireInSeconds = (exp * 1000 - Date.now()) / 1000;
-  console.log('timeTillExpire', timeTillExpireInSeconds);
+  console.log("timeTillExpire", timeTillExpireInSeconds);
   return tokenExpired;
 };

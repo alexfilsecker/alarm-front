@@ -1,7 +1,7 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import Cookies from "js-cookie";
 
-import type { AxiosResponse } from 'axios';
+import type { AxiosResponse } from "axios";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -9,14 +9,14 @@ export const post = async <A, RT>(
   path: string,
   body: A,
   withToken = true,
-): Promise<AxiosResponse<RT, any>> => {
+): Promise<AxiosResponse<RT, unknown>> => {
   let token: string | undefined;
   if (withToken) {
-    token = Cookies.get('token');
+    token = Cookies.get("token");
   }
   const url = `${baseURL}/${path}`;
   return await axios<RT>({
-    method: 'POST',
+    method: "POST",
     url,
     data: body,
     headers: {
@@ -37,6 +37,6 @@ export const requestNewToken = async (refreshToken: string): Promise<void> => {
   const url = `${baseURL}/auth/refresh`;
   const response = await axios.post<NewTokenPayload>(url, body);
   const { data } = response;
-  Cookies.set('token', data.newToken);
-  Cookies.set('refreshToken', data.newRefreshToken);
+  Cookies.set("token", data.newToken);
+  Cookies.set("refreshToken", data.newRefreshToken);
 };

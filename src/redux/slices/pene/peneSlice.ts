@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import peneAction from './peneActions';
+import peneAction from "./peneActions";
 
 const initialState = {
   loadingPene: false,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const peneSlice = createSlice({
-  name: 'pene',
+  name: "pene",
   initialState,
   reducers: {},
   extraReducers(builder) {

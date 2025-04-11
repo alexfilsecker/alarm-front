@@ -1,11 +1,11 @@
-import { Button } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from '../hooks/state';
-import peneAction from '../redux/slices/pene/peneActions';
+import { useAppDispatch, useAppSelector } from "../hooks/state";
+import peneAction from "../redux/slices/pene/peneActions";
 
-const DashboardPage = (): JSX.Element => {
+const DashboardPage = (): React.ReactNode => {
   const { userInfo } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
@@ -18,7 +18,7 @@ const DashboardPage = (): JSX.Element => {
 
   useEffect(() => {
     if (userInfo === null) {
-      void router.push('/');
+      void router.push("/");
     }
   }, [userInfo, router]);
 

@@ -1,12 +1,12 @@
-import { Button, CircularProgress, TextField } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Button, CircularProgress, TextField } from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-import { useAppDispatch, useAppSelector } from '../hooks/state';
-import login from '../redux/slices/auth/authActions';
+import { useAppDispatch, useAppSelector } from "../hooks/state";
+import login from "../redux/slices/auth/authActions";
 
-const Auth = (): JSX.Element => {
-  const [password, setPassword] = useState('');
+const Auth = (): React.ReactNode => {
+  const [password, setPassword] = useState("");
 
   const { userInfo, loadingAuth, authErrorMessage } = useAppSelector(
     (state) => state.auth,
@@ -17,7 +17,7 @@ const Auth = (): JSX.Element => {
 
   useEffect(() => {
     if (userInfo !== null) {
-      void router.push('/dashboard');
+      void router.push("/dashboard");
     }
   }, [userInfo, router]);
 
@@ -26,7 +26,7 @@ const Auth = (): JSX.Element => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleAuth();
     }
   };

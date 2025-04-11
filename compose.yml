@@ -13,6 +13,8 @@ services:
       - ./src/:/app/src
     networks:
       - fintree-front-network
+    env_file:
+      - .env
 
 networks:
   fintree-front-network:

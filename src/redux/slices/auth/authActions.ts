@@ -1,4 +1,4 @@
-import generateRequest from '../../generalActions';
+import generateRequest from "../../generalActions";
 
 type LoginBody = {
   password: string;
@@ -10,8 +10,8 @@ type LoginResponse = {
 };
 
 export const login = generateRequest<LoginResponse, LoginBody>(
-  'post',
-  'auth/login',
+  "post",
+  "auth/login",
   { withToken: false },
 );
 

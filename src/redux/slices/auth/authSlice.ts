@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { getUserInfo, saveRefreshToken, saveToken } from '../../../utils/auth';
+import { getUserInfo, saveRefreshToken, saveToken } from "../../../utils/auth";
 
-import login from './authActions';
+import login from "./authActions";
 
 export type UserInfo = {
   username: string;
@@ -21,7 +21,7 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {},
   extraReducers(builder) {
