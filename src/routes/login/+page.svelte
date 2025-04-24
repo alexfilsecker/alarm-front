@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Input, Label, Button, Helper } from 'flowbite-svelte';
-	import { login } from '$lib/login';
-	import type { LoginErrors } from '$lib/validateAxiosError';
+
+	import type { LoginErrors } from '$lib/api/validateAxiosError';
+	import { login } from '$lib/api/login';
 
 	let username = $state('');
 	let password = $state('');
