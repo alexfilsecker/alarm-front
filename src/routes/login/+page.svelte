@@ -1,15 +1,12 @@
 <script lang="ts">
 	import { Input, Label, Button, Helper } from 'flowbite-svelte';
-
 	import type { LoginErrors } from '$lib/api/validateAxiosError';
 	import { login } from '$lib/api/login';
 	import { goto } from '$app/navigation';
 
 	let username = $state('');
 	let password = $state('');
-
 	let loginErrors: LoginErrors = $state({});
-
 	let loading = $state(false);
 
 	let disabled = $derived(username === '' || password === '');
