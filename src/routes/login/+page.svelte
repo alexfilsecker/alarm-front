@@ -3,6 +3,7 @@
 
 	import type { LoginErrors } from '$lib/api/validateAxiosError';
 	import { login } from '$lib/api/login';
+	import { goto } from '$app/navigation';
 
 	let username = $state('');
 	let password = $state('');
@@ -20,6 +21,7 @@
 		if (result === null) {
 			console.log('Login Successful!!!');
 			loginErrors = {};
+			goto('/home');
 			return;
 		}
 		loginErrors = result;
