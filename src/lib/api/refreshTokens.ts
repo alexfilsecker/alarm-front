@@ -1,6 +1,6 @@
 import { PUBLIC_BASE_URL } from '$env/static/public';
 import axios from 'axios';
-import { validateKnownAxiosError } from './validateAxiosError';
+import { validateKnownAxiosError } from './axiosErrors';
 
 export interface ExpectedRefresh {
 	newToken: string;

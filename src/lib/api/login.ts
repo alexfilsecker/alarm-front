@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PUBLIC_BASE_URL } from '$env/static/public';
-import { validateKnownAxiosError, type LoginErrors } from './validateAxiosError';
+import { validateKnownAxiosError, type LoginErrors } from './axiosErrors';
 import Cookies from 'js-cookie';
 
 interface LoginBody {

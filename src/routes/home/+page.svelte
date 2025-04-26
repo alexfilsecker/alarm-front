@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DayAlarmEdit from './DayAlarmEdit.svelte';
-	import { MIN_ALARM, MAX_ALARM } from '$lib/constants';
+	import { MIN_ALARM, MAX_ALARM } from '$lib/utils/constants';
 
 	// type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
