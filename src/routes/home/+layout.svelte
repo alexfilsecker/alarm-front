@@ -1,3 +1,3 @@
-<div class="m-4 flex h-full flex-col items-center justify-center gap-10">
+<div class="flex flex-col items-center">
 	<slot />
 </div>

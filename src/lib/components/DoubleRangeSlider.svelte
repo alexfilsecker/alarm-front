@@ -102,12 +102,13 @@
 	.slider-container {
 		height: 20px;
 		width: 100%;
-		max-width: 300px;
+		max-width: 400px;
 		background-color: lightyellow;
 		box-sizing: border-box;
 		user-select: none;
 		display: flex;
 		align-items: center;
+		padding: 0 10px;
 	}
 
 	.slider {

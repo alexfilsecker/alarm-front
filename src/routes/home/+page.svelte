@@ -1,18 +1,27 @@
 <script lang="ts">
-	import DoubleRangeSlider from '$lib/components/DoubleRangeSlider.svelte';
-	const min = 270;
-	const max = 1200;
-	let start: number = $state(min);
-	let end: number = $state(max);
+	import DayAlarmEdit from './DayAlarmEdit.svelte';
+	import { MIN_ALARM, MAX_ALARM } from '$lib/constants';
 
-	const toHourFormat = (minutes: number): string => {
-		const hours = Math.floor(minutes / 60);
-		const remainder = minutes % 60;
-		return `${String(hours).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
-	};
+	// type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+
+	// interface Alarm {
+	// 	start: number;
+	// 	end: number;
+	// }
+
+	const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+	// const toHourFormat = (minutes: number): string => {
+	// 	const hours = Math.floor(minutes / 60);
+	// 	const remainder = minutes % 60;
+	// 	return `${String(hours).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
+	// };
 </script>
 
-<h1 class="text-5xl">Home</h1>
-<DoubleRangeSlider bind:start bind:end {min} {max} step={15} />
+<div class="flex flex-col items-center gap-10">
+	<h1 class="text-5xl">ALARM EDITOR</h1>
 
-<p>{toHourFormat(start)} {toHourFormat(end)}</p>
+	{#each days as day (day)}
+		<p>{day}</p>
+		<DayAlarmEdit {day} start={MIN_ALARM} end={MAX_ALARM} />
+	{/each}
+</div>
