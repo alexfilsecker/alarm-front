@@ -13,8 +13,8 @@ const fallback = (route: string | null): object => {
 
 const setNewTokens = (loadEvent: ServerLoadEvent, newTokens: ExpectedRefresh): string => {
 	const { newToken, newRefreshToken } = newTokens;
-	loadEvent.cookies.set('token', newToken, { path: '/' });
-	loadEvent.cookies.set('refreshToken', newRefreshToken, { path: '/' });
+	loadEvent.cookies.set('token', newToken, { path: '/', httpOnly: false });
+	loadEvent.cookies.set('refreshToken', newRefreshToken, { path: '/', httpOnly: false });
 	return newToken;
 };
 
