@@ -16,7 +16,6 @@
 		const result = await login({ username, password });
 		loading = false;
 		if (result === null) {
-			console.log('Login Successful!!!');
 			loginErrors = {};
 			goto('/home');
 			return;

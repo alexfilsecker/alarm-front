@@ -28,7 +28,6 @@ export const login = async (loginBody: LoginBody): Promise<LoginReturn> => {
 		}
 
 		const loginErrors = axiosError.response.data.error.loginErrors;
-		console.log(loginErrors);
 		return loginErrors;
 	}
 
