@@ -13,8 +13,9 @@ export default class API {
 		if (withToken) {
 			token = Cookies.get('token');
 			if (token === undefined) {
-				console.error('NO TOKEN');
-				return {};
+				// TODO: Should verify if there is a refreshToken and try to get new Tokens
+				// If it can't get new tokens we should redirect to /login
+				throw new Error('No Token');
 			}
 		}
 

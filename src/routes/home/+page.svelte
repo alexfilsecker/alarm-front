@@ -1,27 +1,27 @@
 <script lang="ts">
 	import DayAlarmEdit from './DayAlarmEdit.svelte';
-	import { MIN_ALARM, MAX_ALARM } from '$lib/utils/constants';
+	import { getAlarms, type ReturnAlarms } from '$lib/api/alarms';
 
-	// type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+	let alarms: ReturnAlarms | null = $state(null);
 
-	// interface Alarm {
-	// 	start: number;
-	// 	end: number;
-	// }
-
-	const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 	// const toHourFormat = (minutes: number): string => {
 	// 	const hours = Math.floor(minutes / 60);
 	// 	const remainder = minutes % 60;
 	// 	return `${String(hours).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
 	// };
+
+	$effect(() => {
+		getAlarms().then((returnAlarms) => {
+			alarms = returnAlarms;
+		});
+	});
 </script>
 
 <div class="flex flex-col items-center gap-10">
 	<h1 class="text-5xl">ALARM EDITOR</h1>
-
-	{#each days as day (day)}
-		<p>{day}</p>
-		<DayAlarmEdit {day} start={MIN_ALARM} end={MAX_ALARM} />
-	{/each}
+	{#if alarms !== null}
+		{#each Object.entries(alarms) as [day, alarm] (day)}
+			<DayAlarmEdit {day} bind:start={alarm.start} bind:end={alarm.end} />
+		{/each}
+	{/if}
 </div>
