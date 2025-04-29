@@ -1,4 +1,13 @@
-export type MessageHandler = (data: object | string) => void;
+import { z } from 'zod';
+
+export type MessageHandler = (data?: object | string) => void;
+
+const messageSchema = z.object({
+	event: z.string(),
+	data: z.union([z.object({}).passthrough(), z.string()]).optional()
+});
+
+type Message = z.infer<typeof messageSchema>;
 
 export class WebSocketClient {
 	private url: string;
@@ -6,7 +15,7 @@ export class WebSocketClient {
 	private reconnectAttempts = 0;
 	private maxReconnectAttempts: number;
 	private reconnectBaseDelay: number;
-	private onMessageHandlers: MessageHandler[];
+	private onMessageHandlers: Record<string, MessageHandler[]>;
 	private onOpen: () => void;
 	private onClose: () => void;
 	private onError: (error: Event) => void;
@@ -18,9 +27,21 @@ export class WebSocketClient {
 		this.onOpen = () => {};
 		this.onClose = () => {};
 		this.onError = () => {};
-		this.onMessageHandlers = [];
+		this.onMessageHandlers = {};
 
 		this.connect();
+	}
+
+	private parseMessage(message: string): Message | null {
+		let parsedData: Message | undefined;
+		try {
+			const data = JSON.parse(message);
+			parsedData = messageSchema.parse(data);
+		} catch (e) {
+			console.error('could not parse data', e);
+			return null;
+		}
+		return parsedData;
 	}
 
 	private connect() {
@@ -33,12 +54,28 @@ export class WebSocketClient {
 			this.onOpen();
 		};
 
-		this.socket.onmessage = (event) => {
-			if (typeof event.data === 'string') {
-				this.onMessageHandlers.forEach((handler) => {
-					handler(event.data);
-				});
+		this.socket.onmessage = (messageEvent) => {
+			if (typeof messageEvent.data !== 'string') {
+				console.warn('recieved:', messageEvent.data);
+				return;
 			}
+
+			const parsedData = this.parseMessage(messageEvent.data);
+			if (parsedData === null) {
+				console.error('Could not parse data');
+				return;
+			}
+
+			const { event, data } = parsedData;
+
+			if (!(event in this.onMessageHandlers) || this.onMessageHandlers[event].length === 0) {
+				console.warn('No handler for', event);
+				return;
+			}
+
+			this.onMessageHandlers[event].forEach((handler) => {
+				handler(data);
+			});
 		};
 
 		this.socket.onerror = (error) => {
@@ -94,7 +131,10 @@ export class WebSocketClient {
 		this.onError = onError;
 	}
 
-	public addOnMessageHandler(handler: MessageHandler) {
-		this.onMessageHandlers.push(handler);
+	public addOnMessageHandler(event: string, handler: MessageHandler) {
+		if (!(event in this.onMessageHandlers)) {
+			this.onMessageHandlers[event] = [];
+		}
+		this.onMessageHandlers[event].push(handler);
 	}
 }
