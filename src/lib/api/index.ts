@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 export default class API {
 	static async request<T = unknown>(
-		method: 'POST' | 'GET',
+		method: 'POST' | 'GET' | 'PUT',
 		path: string,
 		body: object | null = null,
 		withToken: boolean = true
@@ -38,5 +38,9 @@ export default class API {
 
 	static async get<T = unknown>(path: string, params: object | null, withToken: boolean = true) {
 		return this.request<T>('GET', path, params, withToken);
+	}
+
+	static async put<T = unknown>(path: string, body: object, withToken: boolean = true) {
+		return this.request<T>('PUT', path, body, withToken);
 	}
 }
