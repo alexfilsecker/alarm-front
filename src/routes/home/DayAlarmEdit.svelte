@@ -6,12 +6,13 @@
 		day: string;
 		start: number;
 		end: number;
+		enabled: boolean;
 	}
 
 	const max = 20 * 60;
 	const min = 4.5 * 60;
 	const step = 15;
-	let { start = $bindable(), end = $bindable(), day }: Props = $props();
+	let { start = $bindable(), end = $bindable(), enabled = $bindable(), day }: Props = $props();
 
 	const toHourFormat = (minutes: number): string => {
 		const hours = Math.floor(minutes / 60);
@@ -31,6 +32,6 @@
 	<DoubleRangeSlider {min} {max} {step} bind:start bind:end />
 	<div class="flex items-center gap-3">
 		<p>Enabled?</p>
-		<Checkbox />
+		<Checkbox bind:checked={enabled} />
 	</div>
 </div>

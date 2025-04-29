@@ -21,7 +21,12 @@
 	<h1 class="text-5xl">ALARM EDITOR</h1>
 	{#if alarms !== null}
 		{#each Object.entries(alarms) as [day, alarm] (day)}
-			<DayAlarmEdit {day} bind:start={alarm.start} bind:end={alarm.end} />
+			<DayAlarmEdit
+				{day}
+				bind:start={alarm.start}
+				bind:end={alarm.end}
+				bind:enabled={alarm.enabled}
+			/>
 		{/each}
 	{/if}
 </div>

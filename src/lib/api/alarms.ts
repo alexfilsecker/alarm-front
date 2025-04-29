@@ -12,6 +12,7 @@ export type Day =
 interface AlarmInfo {
 	start: number;
 	end: number;
+	enabled: boolean;
 }
 
 export type ReturnAlarms = Record<Day, AlarmInfo>;
