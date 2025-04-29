@@ -1,26 +1,46 @@
 <script lang="ts">
 	import DayAlarmEdit from './DayAlarmEdit.svelte';
-	import { getAlarms, type ReturnAlarms } from '$lib/api/alarms';
+	import {
+		getAlarms,
+		updateAlarms,
+		type Alarms,
+		type AlarmInfo,
+		orderedDays
+	} from '$lib/api/alarms';
+	import { Button } from 'flowbite-svelte';
 
-	let alarms: ReturnAlarms | null = $state(null);
-
-	// const toHourFormat = (minutes: number): string => {
-	// 	const hours = Math.floor(minutes / 60);
-	// 	const remainder = minutes % 60;
-	// 	return `${String(hours).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
-	// };
+	let alarms: Alarms | null = $state(null);
 
 	$effect(() => {
 		getAlarms().then((returnAlarms) => {
 			alarms = returnAlarms;
 		});
 	});
+
+	const onclick = () => {
+		if (alarms === null) {
+			return;
+		}
+		updateAlarms(alarms);
+	};
+
+	const sortAlarms = (alarms: Alarms | null): [string, AlarmInfo][] | null => {
+		if (alarms === null) return null;
+
+		const entries: [string, AlarmInfo][] = [];
+		orderedDays.forEach((orderedDay) => {
+			entries.push([orderedDay, alarms[orderedDay]]);
+		});
+		return entries;
+	};
+
+	let sortedAlarms = $derived(sortAlarms(alarms));
 </script>
 
 <div class="flex flex-col items-center gap-10">
 	<h1 class="text-5xl">ALARM EDITOR</h1>
-	{#if alarms !== null}
-		{#each Object.entries(alarms) as [day, alarm] (day)}
+	{#if sortedAlarms !== null}
+		{#each sortedAlarms as [day, alarm] (day)}
 			<DayAlarmEdit
 				{day}
 				bind:start={alarm.start}
@@ -29,4 +49,6 @@
 			/>
 		{/each}
 	{/if}
+
+	<Button {onclick}>UPDATE</Button>
 </div>
