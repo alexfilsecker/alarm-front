@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DoubleRangeSlider from '$lib/components/DoubleRangeSlider.svelte';
+	import { MAX_ALARM, MIN_ALARM } from '$lib/utils/constants';
 	import { Checkbox } from 'flowbite-svelte';
 
 	interface Props {
@@ -9,8 +10,6 @@
 		enabled: boolean;
 	}
 
-	const max = 20 * 60;
-	const min = 4.5 * 60;
 	const step = 15;
 	let { start = $bindable(), end = $bindable(), enabled = $bindable(), day }: Props = $props();
 
@@ -29,7 +28,7 @@
 		<p class="w-full text-center">{day}</p>
 		<p class="w-full text-center">{niceStart} {niceEnd}</p>
 	</div>
-	<DoubleRangeSlider {min} {max} {step} bind:start bind:end />
+	<DoubleRangeSlider min={MIN_ALARM} max={MAX_ALARM} {step} bind:start bind:end />
 	<div class="flex items-center gap-3">
 		<p>Enabled?</p>
 		<Checkbox bind:checked={enabled} />
