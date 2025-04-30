@@ -28,6 +28,8 @@
 	};
 
 	$effect(() => {
+		if (ws === undefined) return; // should not happen
+
 		ws.addOnMessageHandler('AlarmsUpdated', () => {
 			createToast('ALARMS UPDATED');
 		});
