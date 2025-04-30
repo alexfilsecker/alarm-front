@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DayAlarmEdit from './DayAlarmEdit.svelte';
+	import BeepButton from './BeepButton.svelte';
 	import {
 		getAlarms,
 		updateAlarms,
@@ -52,6 +53,9 @@
 
 <div class="flex flex-col items-center gap-10">
 	<h1 class="text-5xl">ALARM EDITOR</h1>
+	{#if ws !== undefined}
+		<BeepButton {ws} />
+	{/if}
 	{#if sortedAlarms !== null}
 		{#each sortedAlarms as [day, alarm] (day)}
 			<DayAlarmEdit

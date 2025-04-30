@@ -137,4 +137,14 @@ export class WebSocketClient {
 		}
 		this.onMessageHandlers[event].push(handler);
 	}
+
+	public beep() {
+		if (this.socket === null) return;
+		this.socket.send(JSON.stringify({ event: 'BEEP', data: true }));
+	}
+
+	public beepnt() {
+		if (this.socket === null) return;
+		this.socket.send(JSON.stringify({ event: 'BEEP', data: false }));
+	}
 }
