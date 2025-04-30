@@ -7,9 +7,11 @@
 		type AlarmInfo,
 		orderedDays
 	} from '$lib/api/alarms';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Spinner } from 'flowbite-svelte';
 
 	let alarms: Alarms | null = $state(null);
+
+	let updateLoading = $state(false);
 
 	$effect(() => {
 		getAlarms().then((returnAlarms) => {
@@ -17,10 +19,14 @@
 		});
 	});
 
+	const { data } = $props();
+	const { ws } = data;
+
 	const onclick = () => {
 		if (alarms === null) {
 			return;
 		}
+		updateLoading = true;
 		updateAlarms(alarms);
 	};
 
@@ -35,6 +41,13 @@
 	};
 
 	let sortedAlarms = $derived(sortAlarms(alarms));
+
+	$effect(() => {
+		if (ws === undefined) return; // Should not happen
+		ws.addOnMessageHandler('AlarmsUpdated', () => {
+			updateLoading = false;
+		});
+	});
 </script>
 
 <div class="flex flex-col items-center gap-10">
@@ -50,5 +63,11 @@
 		{/each}
 	{/if}
 
-	<Button {onclick}>UPDATE</Button>
+	<Button {onclick}>
+		{#if updateLoading}
+			<Spinner />
+		{:else}
+			UPDATE
+		{/if}
+	</Button>
 </div>
