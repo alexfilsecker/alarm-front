@@ -3,7 +3,7 @@ interface Options {
 	max: number;
 }
 
-const MAX_POINTS_IN_CHART = 10000;
+const MAX_POINTS_IN_CHART = 5000;
 
 const getRanges = (allPoints: number[][], min: number, max: number) => {
 	let begin: number | null = null;
