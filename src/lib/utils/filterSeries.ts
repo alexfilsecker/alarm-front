@@ -3,19 +3,7 @@ interface Options {
 	max: number;
 }
 
-const MAX_POINTS_IN_CHART = 100;
-
-const totime = (time: number) => {
-	const date = new Date(time);
-
-	const day = date.getUTCDay();
-	const hour = date.getUTCHours();
-	const minute = date.getUTCMinutes();
-	const seconds = date.getUTCSeconds();
-	const miliseconds = date.getUTCMilliseconds();
-
-	return `${day} ${hour}:${minute}:${seconds}.${miliseconds}`;
-};
+const MAX_POINTS_IN_CHART = 10000;
 
 const getRanges = (allPoints: number[][], min: number, max: number) => {
 	let begin: number | null = null;
@@ -47,23 +35,27 @@ const getRanges = (allPoints: number[][], min: number, max: number) => {
 	};
 };
 
-export const filterSeries = (allPoints: number[][], options?: Options): number[][] => {
-	let min = allPoints[0][0];
-	let max = allPoints[allPoints.length - 1][0];
-	if (options !== undefined) {
-		min = options.min;
-		max = options.max;
+const getLeftRight = (allPoints: number[][], min: number, max: number) => {
+	let left = 0;
+	let right = allPoints.length - 1;
+	for (let i = 0; i < allPoints.length; i += 1) {
+		const time = allPoints[i][0];
+		if (time < min) {
+			left = i;
+		}
+		if (i < allPoints.length - 1 && time >= max) {
+			right = i + 1;
+			break;
+		}
 	}
+	return { left, right };
+};
 
-	const { begin, end, count } = getRanges(allPoints, min, max);
-
+const filter = (allPoints: number[][], begin: number, end: number, maskSize: number) => {
 	const filtered: number[][] = [];
-	const maskSize = Math.ceil(count / MAX_POINTS_IN_CHART);
-
 	let readSum = 0;
 	let timeSum = 0;
 	let counter = 0;
-
 	for (let i = begin; i < end; i += 1) {
 		timeSum += allPoints[i][0];
 		readSum += allPoints[i][1];
@@ -81,4 +73,23 @@ export const filterSeries = (allPoints: number[][], options?: Options): number[]
 	}
 
 	return filtered;
+};
+
+export const filterSeries = (allPoints: number[][], options?: Options): number[][] => {
+	let min = allPoints[0][0];
+	let max = allPoints[allPoints.length - 1][0];
+	if (options !== undefined) {
+		min = options.min;
+		max = options.max;
+	}
+
+	const { begin, end, count } = getRanges(allPoints, min, max);
+
+	if (count === 1) {
+		const { left, right } = getLeftRight(allPoints, min, max);
+		return [allPoints[left], allPoints[right]];
+	}
+
+	const maskSize = Math.ceil(count / MAX_POINTS_IN_CHART);
+	return filter(allPoints, begin, end, maskSize);
 };
