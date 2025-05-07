@@ -29,7 +29,6 @@
 		});
 
 		if (ws === undefined) return; // Should not happen
-
 		ws.addOnMessageHandler('SendRead', acceptNewRead);
 	});
 </script>
