@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { PUBLIC_BASE_URL } from '$env/static/public';
 import { validateKnownAxiosError, type LoginErrors } from './axiosErrors';
 import Cookies from 'js-cookie';
+import { browser } from '$app/environment';
+import { importBaseUrl } from './importBaseUrl';
 
 interface LoginBody {
 	username: string;
@@ -17,11 +18,14 @@ type LoginReturn = null | LoginErrors;
 
 export const login = async (loginBody: LoginBody): Promise<LoginReturn> => {
 	try {
-		const response = await axios.post<ExpectedData>(`${PUBLIC_BASE_URL}/auth/login`, loginBody);
+		const baseUrl = await importBaseUrl();
+		console.log(baseUrl);
+		const response = await axios.post<ExpectedData>(`${baseUrl}/auth/login`, loginBody);
 		const { token, refreshToken } = response.data;
 		Cookies.set('token', token);
 		Cookies.set('refreshToken', refreshToken);
 	} catch (error: unknown) {
+		console.log(error);
 		const axiosError = validateKnownAxiosError(error);
 		if (axiosError.response.data.error.type !== 'LoginError') {
 			throw error;

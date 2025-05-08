@@ -1,9 +1,10 @@
-import { PUBLIC_BASE_URL } from '$env/static/public';
 import axios from 'axios';
+import { importBaseUrl } from './importBaseUrl';
 
 export const verifyToken = async (token: string) => {
+	const baseUrl = await importBaseUrl();
 	return axios.post(
-		`${PUBLIC_BASE_URL}/auth/verify`,
+		`${baseUrl}/auth/verify`,
 		{},
 		{
 			headers: {

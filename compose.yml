@@ -1,0 +1,21 @@
+services:
+  alarm-front:
+    image: alarm-front
+    container_name: alarm-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run dev
+    ports:
+      - 5173:5173
+    networks:
+      - alarm-server-net
+    restart: always
+    volumes:
+      - type: bind
+        source: ./src
+        target: /app/src
+
+networks:
+  alarm-server-net:
+    external: true

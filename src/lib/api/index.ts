@@ -1,6 +1,7 @@
-import { PUBLIC_BASE_URL } from '$env/static/public';
+import { browser } from '$app/environment';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { importBaseUrl } from './importBaseUrl';
 
 export default class API {
 	static async request<T = unknown>(
@@ -19,11 +20,13 @@ export default class API {
 			}
 		}
 
+		const baseUrl = await importBaseUrl();
+
 		const response = await axios.request<T>({
 			data: method !== 'GET' ? body : undefined,
 			params: method === 'GET' ? body : undefined,
 			method,
-			url: `${PUBLIC_BASE_URL}/${path}`,
+			url: `${baseUrl}/${path}`,
 			headers: {
 				Authorization: withToken ? `Bearer ${token}` : undefined
 			}
