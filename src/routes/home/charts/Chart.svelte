@@ -73,4 +73,8 @@
 	});
 </script>
 
-<Chart options={chartOptions} class="w-full" />
+{#if points.length !== 0}
+	<Chart options={chartOptions} class="w-full" />
+{:else}
+	<div>no points</div>
+{/if}

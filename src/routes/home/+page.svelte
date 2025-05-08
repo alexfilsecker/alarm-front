@@ -53,7 +53,7 @@
 
 <div class="flex flex-col items-center gap-10">
 	<h1 class="text-5xl">ALARM EDITOR</h1>
-	<a href="home/graphs">graphs</a>
+	<a href="home/charts">charts</a>
 	{#if ws !== undefined}
 		<BeepButton {ws} />
 	{/if}
