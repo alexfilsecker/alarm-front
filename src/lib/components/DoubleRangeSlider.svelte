@@ -101,7 +101,7 @@
 <style>
 	.slider-container {
 		height: 20px;
-		width: 100%;
+		flex-grow: 1;
 		max-width: 400px;
 		background-color: lightyellow;
 		box-sizing: border-box;
