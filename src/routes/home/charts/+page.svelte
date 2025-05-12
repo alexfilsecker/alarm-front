@@ -4,6 +4,7 @@
 	import { z } from 'zod';
 	import Chart from './Chart.svelte';
 	import { getRange } from '$lib/utils/getRange';
+	import ChartOptions from './ChartOptions.svelte';
 
 	let allPoints: number[][] = $state([]);
 	let points: number[][] = $state([]);
@@ -33,7 +34,10 @@
 	});
 </script>
 
-<h1 class="text-4xl">Charts</h1>
-{#if points.length > 0}
-	<Chart {allPoints} {points} rangeY={range} />
-{/if}
+<div class="flex w-full flex-col items-center gap-4">
+	<h1 class="text-4xl">Charts</h1>
+	<ChartOptions />
+	{#if points.length > 0}
+		<Chart {allPoints} {points} rangeY={range} />
+	{/if}
+</div>
