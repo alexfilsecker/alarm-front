@@ -6,7 +6,7 @@
 	import { fly } from 'svelte/transition';
 
 	interface Props {
-		ws: WebSocketClient | undefined;
+		ws: WebSocketClient;
 	}
 
 	let { ws }: Props = $props();
@@ -32,8 +32,6 @@
 	};
 
 	$effect(() => {
-		if (ws === undefined) return; // should not happen
-
 		ws.addOnMessageHandler('AlarmsUpdated', () => {
 			createToast('ALARMS UPDATED');
 		});
