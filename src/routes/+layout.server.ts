@@ -78,7 +78,7 @@ export const load: ServerLoad = async (loadEvent) => {
 	}
 
 	if (route === '/login' || route === '/') {
-		throw redirect(307, '/home');
+		throw redirect(307, '/edit');
 	}
 
 	return {};

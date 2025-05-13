@@ -17,7 +17,7 @@
 		loading = false;
 		if (result === null) {
 			loginErrors = {};
-			goto('/home');
+			goto('/edit');
 			return;
 		}
 		loginErrors = result;
