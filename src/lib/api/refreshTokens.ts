@@ -1,4 +1,4 @@
-import { PUBLIC_BASE_URL } from '$env/static/public';
+import { importBaseUrl } from './importBaseUrl';
 import axios from 'axios';
 import { validateKnownAxiosError } from './axiosErrors';
 
@@ -9,7 +9,8 @@ export interface ExpectedRefresh {
 
 export const refreshTokens = async (refreshToken: string) => {
 	try {
-		const response = await axios.post<ExpectedRefresh>(`${PUBLIC_BASE_URL}/auth/refresh`, {
+		const baseUrl = await importBaseUrl();
+		const response = await axios.post<ExpectedRefresh>(`${baseUrl}/auth/refresh`, {
 			refreshToken
 		});
 		return response.data;

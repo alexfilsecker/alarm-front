@@ -1,4 +1,3 @@
-import { browser } from '$app/environment';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { importBaseUrl } from './importBaseUrl';
