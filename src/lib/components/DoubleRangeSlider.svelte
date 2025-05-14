@@ -73,24 +73,24 @@
 	};
 </script>
 
-<div class="slider-container text-lg">
+<div class="slider-container">
 	<div class="slider" bind:this={slider}>
 		<div
-			class="body"
+			class="body bg-primary-400"
 			style="
       left: {100 * startPos}%;
       right: {100 * (1 - endPos)}%
     "
 		></div>
 		<div
-			class="handle"
+			class="handle bg-primary-500"
 			style="left: {100 * startPos}%"
 			use:dragable
 			ondragmove={setHandlePosition('start')}
 		></div>
 
 		<div
-			class="handle"
+			class="handle bg-primary-500"
 			style="left: {100 * endPos}%"
 			use:dragable
 			ondragmove={setHandlePosition('end')}
@@ -103,7 +103,6 @@
 		height: 20px;
 		flex-grow: 1;
 		max-width: 400px;
-		background-color: lightyellow;
 		box-sizing: border-box;
 		user-select: none;
 		display: flex;
@@ -122,7 +121,6 @@
 	.body {
 		top: 0;
 		position: absolute;
-		background-color: lightpink;
 		height: 100%;
 	}
 
@@ -130,7 +128,6 @@
 		position: absolute;
 		width: 20px;
 		height: 20px;
-		background-color: lightsalmon;
 		border-radius: 100%;
 		left: 50%;
 		top: 50%;
