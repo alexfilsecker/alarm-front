@@ -6,11 +6,13 @@
 	const { ws } = data;
 </script>
 
-{#if ws !== undefined}
-	<Navbar {ws} />
-	<Toasts {ws} />
-{/if}
+<div>
+	{#if ws !== undefined}
+		<Navbar {ws} />
+		<Toasts {ws} />
+	{/if}
 
-<div class="flex flex-col items-center">
-	{@render children()}
+	<div class="pt-28">
+		{@render children()}
+	</div>
 </div>

@@ -17,7 +17,7 @@
 	};
 </script>
 
-<div class="absolute flex h-20 w-full items-center justify-between bg-amber-50 px-12">
+<div class="bg-primary-50 absolute flex h-20 w-full items-center justify-between px-12 shadow-md">
 	<div class="text-4xl font-bold">⏰ Alarm</div>
 	<BeepButton {ws} />
 	<div class="flex items-center gap-4">

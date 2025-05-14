@@ -51,8 +51,6 @@
 </script>
 
 <div class="flex flex-col items-center gap-3">
-	<h1 class="text-5xl">ALARM EDITOR</h1>
-	<a href="home/charts">charts</a>
 	{#if sortedAlarms !== null}
 		{#each sortedAlarms as [day, alarm] (day)}
 			<DayAlarmEdit
