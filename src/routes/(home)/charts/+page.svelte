@@ -18,6 +18,7 @@
 		});
 		const parsedData = dataSchema.parse(data);
 		allPoints.push([parsedData.time, parsedData.read]);
+		allPoints.sort((a, b) => a[0] - b[0]);
 	};
 
 	$effect(() => {
