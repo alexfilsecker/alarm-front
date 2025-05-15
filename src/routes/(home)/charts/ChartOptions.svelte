@@ -14,13 +14,17 @@
 		};
 		points: number[][];
 		allPoints: number[][];
+		live: boolean;
 	}
 
-	let { rangeY = $bindable(), points = $bindable(), allPoints = $bindable() }: Props = $props();
+	let {
+		rangeY = $bindable(),
+		live = $bindable(),
+		points = $bindable(),
+		allPoints = $bindable()
+	}: Props = $props();
 
 	let selected: PosibleValues = $state('1m');
-
-	let live: boolean = $state(true);
 
 	$effect(() => {
 		getGraph(selected).then((res) => {

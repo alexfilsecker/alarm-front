@@ -11,16 +11,22 @@
 		};
 		points: number[][];
 		allPoints: number[][];
+		live: boolean;
 	}
 
-	let { rangeY = $bindable(), points = $bindable(), allPoints = $bindable() }: Props = $props();
+	let {
+		rangeY = $bindable(),
+		points = $bindable(),
+		allPoints = $bindable(),
+		live
+	}: Props = $props();
 
 	let chartOptions: ApexOptions = $derived({
 		chart: {
 			type: 'line',
 			height: 600,
 			zoom: {
-				enabled: true,
+				enabled: !live,
 				type: 'x'
 			},
 			events: {
@@ -66,6 +72,7 @@
 			max: rangeY.max
 		},
 		tooltip: {
+			enabled: !live,
 			x: {
 				format: 'dd MMM yyyy HH:mm'
 			}

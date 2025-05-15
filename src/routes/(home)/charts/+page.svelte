@@ -7,6 +7,7 @@
 	let allPoints: number[][] = $state([]);
 	let points: number[][] = $state([]);
 	let rangeY: { min: number; max: number } = $state({ min: 0, max: 0 });
+	let live: boolean = $state(true);
 
 	const { data } = $props();
 	const { ws } = data;
@@ -29,9 +30,9 @@
 
 <div class="flex flex-col items-center px-5">
 	<Card class="flex w-full max-w-none flex-col items-start gap-4">
-		<ChartOptions bind:allPoints bind:points bind:rangeY />
+		<ChartOptions bind:allPoints bind:points bind:rangeY bind:live />
 		{#if points.length > 0}
-			<Chart {allPoints} {points} {rangeY} />
+			<Chart {allPoints} {points} {rangeY} {live} />
 		{/if}
 	</Card>
 </div>
