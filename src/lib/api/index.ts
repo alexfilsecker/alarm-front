@@ -28,7 +28,7 @@ export default class API {
 		path: string,
 		body: object | null = null,
 		withToken: boolean = true
-	) {
+	): Promise<T> {
 		let token: string | undefined;
 		if (withToken) {
 			token = Cookies.get('token');
@@ -71,7 +71,7 @@ export default class API {
 			}
 		}
 
-		return null;
+		throw new Error('Could not fetch data');
 	}
 
 	static post<T = unknown>(path: string, body: object | null = null, withToken: boolean = true) {

@@ -39,14 +39,14 @@
 			}
 		},
 		stroke: {
-			width: 2,
+			width: 3,
 			curve: 'smooth'
 		},
-
 		series: [
 			{
 				name: 'Scale',
-				data: points
+				data: points,
+				color: '#fe795d'
 			}
 		],
 		xaxis: {
@@ -74,7 +74,7 @@
 </script>
 
 {#if points.length !== 0}
-	<Chart options={chartOptions} class="w-full" />
+	<Chart options={chartOptions} class="w-full " />
 {:else}
 	<div>no points</div>
 {/if}
