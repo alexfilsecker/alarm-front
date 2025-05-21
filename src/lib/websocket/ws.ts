@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { PUBLIC_WS_URL } from '$env/static/public';
 
 export type MessageHandler = (data?: object | string) => void;
 
@@ -21,7 +22,7 @@ export class WebSocketClient {
 	private onError: (error: Event) => void;
 
 	constructor() {
-		this.url = 'ws://localhost:8000/?client=FRONT';
+		this.url = PUBLIC_WS_URL;
 		this.maxReconnectAttempts = 5;
 		this.reconnectBaseDelay = 1000;
 		this.onOpen = () => {};
