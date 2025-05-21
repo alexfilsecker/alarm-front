@@ -1,9 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { importBaseUrl } from './importBaseUrl';
 import { validateKnownAxiosError } from './axiosErrors';
 import { goto } from '$app/navigation';
 import { refreshTokens } from './refreshTokens';
+import { PUBLIC_BASE_URL } from '$env/static/public';
 
 const badToken = async () => {
 	const refreshToken = Cookies.get('refreshToken');
@@ -41,7 +41,7 @@ export default class API {
 			}
 		}
 
-		const baseUrl = await importBaseUrl();
+		const baseUrl = PUBLIC_BASE_URL;
 
 		let done = false;
 		while (!done) {

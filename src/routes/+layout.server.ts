@@ -2,6 +2,7 @@ import { redirect, type ServerLoad, type ServerLoadEvent } from '@sveltejs/kit';
 import { refreshTokens, type ExpectedRefresh } from '$lib/api/refreshTokens';
 import { validExpInJwt } from '$lib/utils/jwt';
 import { verifyToken } from '$lib/api/verifyToken';
+import { BASE_URL } from '$env/static/private';
 
 const fallback = (route: string | null): object => {
 	if (route === '/login') {
@@ -35,7 +36,7 @@ const badToken = async (loadEvent: ServerLoadEvent): Promise<string> => {
 	}
 
 	// Try to get new tokens with refreshToken
-	const newTokens = await refreshTokens(refreshToken);
+	const newTokens = await refreshTokens(refreshToken, BASE_URL);
 	if (newTokens === null) {
 		// Could not refresh tokens,
 		loadEvent.cookies.delete('refreshToken', { path: '/' });
@@ -70,7 +71,7 @@ export const load: ServerLoad = async (loadEvent) => {
 
 	// Verify Token
 	try {
-		await verifyToken(token);
+		await verifyToken(token, BASE_URL);
 	} catch {
 		loadEvent.cookies.delete('token', { path: '/' });
 		loadEvent.cookies.delete('refreshToken', { path: '/' });
