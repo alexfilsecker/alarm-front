@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { filterSeries } from '$lib/utils/filterSeries';
+	import { shiftSeries } from '$lib/utils/shiftSeries';
 	import { getRange } from '$lib/utils/getRange';
 	import { getGraph } from '$lib/api/graphs';
 	import { ButtonGroup, Button, Toggle } from 'flowbite-svelte';
@@ -26,17 +27,24 @@
 
 	let selected: PosibleValues = $state('1m');
 
-	$effect(() => {
-		getGraph(selected).then((res) => {
-			allPoints = res;
-			points = filterSeries(allPoints);
-			rangeY = getRange(allPoints);
-		});
-	});
+	const onSelect = (timeRange: PosibleValues) => {
+		return () => {
+			allPoints = [];
+			selected = timeRange;
+			getGraph(timeRange).then((res) => {
+				allPoints = res;
+				points = filterSeries(allPoints);
+				rangeY = getRange(allPoints);
+			});
+		};
+	};
+
+	$effect(() => {});
 
 	$effect(() => {
 		if (!live) return;
 		if (allPoints.length === 0) return;
+		shiftSeries(allPoints, selected);
 		points = filterSeries(allPoints);
 		rangeY = getRange(allPoints);
 	});
@@ -49,9 +57,7 @@
 			{#each buttons as button (button)}
 				<Button
 					class={selected === button ? '!bg-primary-500 !text-white' : ''}
-					onclick={() => {
-						selected = button;
-					}}>{button}</Button
+					onclick={onSelect(button)}>{button}</Button
 				>
 			{/each}
 		</ButtonGroup>
