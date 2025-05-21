@@ -6,6 +6,6 @@ COPY package.json ./
 RUN npm install
 
 COPY . .
-RUN mv .docker.env .env
+RUN mv .envs/.local.env .env
 
 

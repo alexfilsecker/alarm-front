@@ -1,0 +1,17 @@
+services:
+  alarm-front-cloud:
+    image: alarm-front-cloud
+    container_name: alarm-front-cloud
+    build:
+      context: .
+      dockerfile: Dockerfile.cloud
+    command: npm run preview
+    ports:
+      - 4173:4173
+    networks:
+      - alarm-server-net-cloud
+    restart: always
+
+networks:
+  alarm-server-net-cloud:
+    external: true

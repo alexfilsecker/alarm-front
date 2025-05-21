@@ -6,5 +6,4 @@ CHANGELOG.md
 compose.yml
 Dockerfile
 package-lock.json
-.svelte-kit
 
